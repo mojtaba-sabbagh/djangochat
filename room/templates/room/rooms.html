@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Rooms | {% endblock %}
+{% block page_title %}
+        <h1 class="text-3xl lg:text-6xl text-white">Rooms</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="w-full flex flex-wrap items-center">
+    {% for room in rooms %}
+        <div class="w-full lg:w-1/4 px-3 py-3">
+            {% if room.opened %}
+                <div class="p-4 bg-white shadow rounded-xl text-center">
+            {% else %}
+                <div class="p-4 bg-white animate-pulse shadow rounded-xl text-center">
+            {% endif %}
+                <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+
+                <a href="{% url 'room' room.slug %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
+                <a href="{% url 'delroom' room.slug %}" class="my-3 px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ room.slug|json_script:"json-roomname" }}
+{{ request.user.username|json_script:"json-username" }}
+
+<script>
+    const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+    const userName = "Anah";//JSON.parse(document.getElementById('json-username').textContent);
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+        + userName
+        + '/'
+    );
+
+    chatSocket.onclose = function(e) {
+        console.log('onclose')
+    }
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        if (data.message) {
+            location.reload();
+        } else {
+            alert('The message was empty!')
+        }
+
+    };
+    
+   </script>
+{% endblock %}
