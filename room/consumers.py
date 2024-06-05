@@ -1,10 +1,15 @@
 import json
+import base64
+from pathlib import Path
+import os
 
 from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 
 from .models import Room, Message
+
+BASE_DIR = Path(__file__).parent.parent
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -27,22 +32,39 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         data = json.loads(text_data)
-        #print(data)
-        message = data['message']
+        payam = ''
         username = data['username']
         room = data['room']
+        if 'message' in data:
+            message = data['message']
+            payam = message
+            # Send message to room group
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat.message',
+                    'message': payam,
+                    'username': username
+                }
+            )
+        elif 'file' in data:
+            file_data = data['file']
+            file_name = data['file_name']
+            payam = file_name
+            
+            with open(os.path.join(BASE_DIR, f'media/{file_name}'), 'wb') as f:
+                f.write(base64.b64decode(file_data))
+            # ارسال نام فایل به گروه چت
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat_file',
+                    'file_name': file_name,
+                    'username': username
+                }
+            )
 
-        await self.save_message(username, room, message)
-
-        # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat.message',
-                'message': message,
-                'username': username
-            }
-        )
+        await self.save_message(username, room, payam)
 
     # Receive message from room group
     async def chat_message(self, event):
@@ -52,6 +74,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
+            'username': username
+        }))
+    async def chat_file(self, event):
+        file_name = event['file_name']
+        username = event['username']
+        # ارسال نام فایل به WebSocket
+        await self.send(text_data=json.dumps({
+            'file_name': file_name,
             'username': username
         }))
 

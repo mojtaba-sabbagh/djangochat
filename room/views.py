@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Room, Message
 
@@ -22,4 +22,4 @@ def room(request, slug):
 @login_required
 def delroom(request, slug):
     Room.objects.get(slug=slug).delete()
-    return rooms(request)
+    return redirect('rooms')
