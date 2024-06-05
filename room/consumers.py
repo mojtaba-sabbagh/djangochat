@@ -33,6 +33,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         payam = ''
+        kind = 1
         username = data['username']
         room = data['room']
         if 'message' in data:
@@ -51,7 +52,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             file_data = data['file']
             file_name = data['file_name']
             payam = file_name
-            
+            kind = 2
             with open(os.path.join(BASE_DIR, f'media/{file_name}'), 'wb') as f:
                 f.write(base64.b64decode(file_data))
             # ارسال نام فایل به گروه چت
@@ -64,7 +65,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 }
             )
 
-        await self.save_message(username, room, payam)
+        await self.save_message(username, room, payam, kind)
 
     # Receive message from room group
     async def chat_message(self, event):
@@ -86,8 +87,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }))
 
     @sync_to_async
-    def save_message(self, username, room, message):
+    def save_message(self, username, room, message, kind):
         user = User.objects.get(username=username)
         room = Room.objects.get(slug=room)
 
-        Message.objects.create(user=user, room=room, content=message)
+        Message.objects.create(user=user, room=room, content=message, kind=kind)
