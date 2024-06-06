@@ -19,7 +19,7 @@
     <div class="chat-messages space-y-3" id="chat-messages">
         {% for m in messages %}<b>{{ m.user.username }}</b>: 
             {% if m.kind == 2 %} 
-                <a href="/media/{{ m.content }} " target="_blank" download={{ m.content }}> {{ m.content }} </a>
+                <a href="/media/{{ m.content }} " target="_blank"> {{ m.content }} </a>
             {% else %}
                 {{ m.content }} 
             {% endif %}
