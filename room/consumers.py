@@ -2,6 +2,7 @@ import json
 import base64
 from pathlib import Path
 import os
+import errno
 
 from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -10,6 +11,14 @@ from asgiref.sync import sync_to_async
 from .models import Room, Message
 
 BASE_DIR = Path(__file__).parent.parent
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
+    return
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -53,7 +62,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             file_name = data['file_name']
             payam = file_name
             kind = 2
-            with open(os.path.join(BASE_DIR, f'media/{file_name}'), 'wb') as f:
+            path = f'media/{room}/'
+            mkdir_p(path)
+            with open(os.path.join(BASE_DIR, path, file_name), 'wb') as f:
                 f.write(base64.b64decode(file_data))
             # ارسال نام فایل به گروه چت
             await self.channel_layer.group_send(

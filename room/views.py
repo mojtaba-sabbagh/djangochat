@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.conf import settings
 
 from .models import Room, Message
+import shutil
 
 @login_required
 def rooms(request):
@@ -21,5 +23,11 @@ def room(request, slug):
                                                 'title_page': 'Chat Room'})
 @login_required
 def delroom(request, slug):
-    Room.objects.get(slug=slug).delete()
+    room = Room.objects.get(slug=slug)
+    folder_path = f'{settings.MEDIA_ROOT}/{room.name}'
+    try:
+        shutil.rmtree(folder_path)
+    except:
+        pass
+    room.delete()
     return redirect('rooms')
