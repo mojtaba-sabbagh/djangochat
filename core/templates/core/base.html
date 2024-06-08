@@ -8,11 +8,31 @@
         <title>{% block title %}{% endblock %}Djangochat</title>
 
         <script src="https://cdn.tailwindcss.com"></script>
-
+        <link rel="stylesheet" href=
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             .messages {
                 height: 400px;
                 overflow-y: auto;
+            }
+            .input-icons {
+                width: 100%;
+                position: relative;
+            }
+
+            .input-icons i {
+                position: absolute;
+                right: -10px;
+            }
+            .icon {
+                padding: 10px;
+                min-width: 40px;
+            }
+
+            .input-field {
+                width: 100%;
+                padding: 10px;
+                text-align: center;
             }
         </style>
     </head>

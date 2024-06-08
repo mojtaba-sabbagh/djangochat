@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from django.conf import settings
 
 from .models import Room, Message
 import shutil
 
-@login_required
+@staff_member_required
 def rooms(request):
     rooms = Room.objects.all()
 
@@ -21,7 +22,7 @@ def room(request, slug):
     return render(request, 'room/room.html', {'room': room, 'messages': messages,\
                                               'username': request.user.username,\
                                                 'title_page': 'Chat Room'})
-@login_required
+@staff_member_required
 def delroom(request, slug):
     room = Room.objects.get(slug=slug)
     folder_path = f'{settings.MEDIA_ROOT}/{room.name}'
