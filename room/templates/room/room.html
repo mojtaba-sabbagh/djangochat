@@ -15,32 +15,68 @@
     </div>
 {% endif %}
 
-<div class="mt-6 lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <div class="chat-messages space-y-3" id="chat-messages">
-        {% for m in messages %}<b>{{ m.user.username }}</b>: 
-            {% if m.kind == 2 %} 
-                <a href="/media/{{ m.room }}/{{ m.content }} " target="_blank"> {{ m.content }} </a>
-            {% else %}
-                {{ m.content }} 
-            {% endif %}
-            <br>
-        {% endfor %}
-    </div>
-</div>
-
-<div class="lg:w-2/4 mt-6 mx-4 lg:mx-auto p-2 bg-white rounded-xl">
-    <form method="post" action="."  class="flex items-center">
-        <div class="input-icons">
-            <label for="file-input">
-                <i class="fa fa-paperclip icon"></i>
-            </label>
-            <input type="text" name="content" class="flex-1 mr-3 px-2 w-full py-2" placeholder="Your message..." id="chat-message-input">
+    <div class="flex flex-col h-screen max-w-sm">
+        <div class="flex-grow overflow-y-auto" id="chat-messages">
+            {% for m in messages %} 
+                {% if m.kind == 2 %} 
+                    <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %} ">
+                        <div class="{% cycle 'bg-gray-100' 'bg-blue-300' %} rounded-lg px-4 py-2 max-w-[80%]">
+                            <p class="text-gray-900 text-sm"><a dowload href="/media/{{ m.room }}/{{ m.content }} " target="_blank"> {{ m.content }} </a></p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
+                        <div class="{% cycle 'bg-gray-100' 'bg-blue-300' %} rounded-lg px-4 py-2 max-w-[80%]">
+                            <p class="text-gray-900 text-sm"> {{ m.content }} </p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-        <button class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700 ml-2"
-            id="chat-message-submit">Submit</button>
-    </form>
-    <input class='hidden' id="file-input" type="file">
-</div>ß
+
+        <div class="flex justify-center items-center h-16">
+            <form method="post" action="."  class="flex items-center">
+                {% csrf_token %} 
+                <div class="input-icons">
+                    <label for="file-input">
+                        <i class="fa fa-paperclip icon"></i>
+                    </label>
+                    <input type="text" id="chat-message-input" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message...">
+                </div>
+                <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
+            </form>
+            <input class='hidden' id="file-input" type="file">
+        </div>
+    </div>
+<!--div class="flex flex-col h-screen max-w-sm">
+    <div class="flex-grow overflow-y-auto">
+        <!- Chat messages -->
+        <!--div class="flex flex-col mb-4 gap-4 py-4">
+            <div class="flex justify-start">
+                <div class="bg-gray-100 rounded-lg px-4 py-2 max-w-[80%]">
+                    <p class="text-gray-900 text-sm">Hey, how are you?</p>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <div class="bg-blue-500 rounded-lg px-4 py-2 max-w-[80%]">
+                    <p class="text-white text-sm">I'm good, thanks! How about you?</p>
+                </div>
+            </div>
+            <div class="flex justify-start">
+                <div class="bg-gray-100 rounded-lg px-4 py-2 max-w-[80%]">
+                    <p class="text-gray-900 text-sm">I'm doing great, thanks for asking!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center items-center h-16">
+        <!- Chat input ->
+        <input type="text" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message...">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
+    </div>
+</div-->
+
+
 {% endblock %}
 
 {% block scripts %}
@@ -78,14 +114,32 @@
 
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-
-        if (data.message) {
-            document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
-        } 
-        if (data.file_name) {
-                document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + '<a href="/media/'+ roomName + '/' + data.file_name + '">' + data.file_name + '</a><br>');
-                document.querySelector('#file-input').value = "";
+        let messageColor = '';
+        console.log(data);
+        console.log(userName);
+        if (data.username == userName) {
+            messageColor = '<div class="flex justify-start mt-2 ml-2">' +
+                            '<div class="bg-gray-100 rounded-lg px-4 py-2 max-w-[80%]">'
+        } else {
+            messageColor = '<div class="flex justify-end mt-2 mr-2">' +
+                            '<div class="bg-blue-300 rounded-lg px-4 py-2 max-w-[80%]">'
         }
+        if (data.message) {
+            document.querySelector('#chat-messages').innerHTML +=
+                (messageColor +
+                        `<p class="text-gray-900 text-sm">${data.message}</p>` +
+                    '</div>' +
+                '</div>');
+        }
+        if (data.file_name) {
+            document.querySelector('#chat-messages').innerHTML += 
+                (messageColor +
+                        '<p class="text-gray-900 text-sm">' + `<a download href="/media/${roomName}/${data.file_name}" target="_blank">${data.file_name}</a></p>` +
+                    '</div>' +
+                '</div>');
+            document.querySelector('#file-input').value = "";
+        }
+        
         //else {
         //    alert('The message was empty!')
        // }

@@ -17,7 +17,7 @@
             {% endif %}
                 <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
 
-                <a href="{% url 'room' room.slug %}" target="_blank" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
+                <button onclick="openChat( '{{ room.slug }}')" target="_blank" class="px-5 py-3 w-full block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</button>
                 <a href="{% url 'delroom' room.slug %}" class="my-3 px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Delete</a>
             </div>
         </div>
@@ -57,4 +57,12 @@
     };
     
    </script>
+   <script>
+    function openChat(room) {
+        let host = location.host;
+        window.open(`http://${host}/rooms/`+room+"/", null, 
+                    "width=400px, height=550px, toolbar=0,location=0,resizable=0, menubar=0, status=0");
+    }
+        
+</script>
 {% endblock %}
