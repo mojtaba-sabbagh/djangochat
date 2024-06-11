@@ -1,0 +1,56 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$JLTvRiJCUDsVx1x55CJelB$8MWaozrupoq7JlEN/th5sL8QJku8biugqWpxw81U3Uw=",
+        "last_login": "2024-06-10T14:00:17.204Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@anah.ae",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2024-05-31T04:22:05.717Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$W5LSKxPifcbBDJpU60sm0k$3V/mvXM6ShS4YrLyTzD0IvXZHUsAKROuwTEeGnyFHtI=",
+        "last_login": "2024-06-10T13:59:57.366Z",
+        "is_superuser": false,
+        "username": "Anah",
+        "first_name": "Anah",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2024-05-31T04:23:42Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$qp20CDpTUir5BS3S6NhWAQ$ZopAEq8dT7DCnKBO2fO94VldFfpnNHulFb4fpvehjag=",
+        "last_login": "2024-06-10T14:00:05.496Z",
+        "is_superuser": false,
+        "username": "Guest",
+        "first_name": "Guest",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2024-05-31T04:24:37Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

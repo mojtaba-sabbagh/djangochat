@@ -35,7 +35,7 @@
                 {% if m.kind == 2 %} 
                     <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %} ">
                         <div class="{% cycle 'bg-gray-100' 'bg-blue-300' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm"><a dowload href="/media/{{ m.room }}/{{ m.content }} " target="_blank"> {{ m.content }} </a></p>
+                            <p class="text-gray-900 text-sm"><a dowload href="javascript:downloadFile('/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')"> {{ m.content }} </a></p>
                         </div>
                     </div>
                 {% else %}
@@ -57,7 +57,7 @@
                     </label>
                     <input type="text" id="chat-message-input" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message...">
                 </div>
-                <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
+                <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-1 rounded">Send</button>
             </form>
             <input class='hidden' id="file-input" type="file">
         </div>
@@ -96,7 +96,7 @@
 {% block scripts %}
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
@@ -148,7 +148,7 @@
         if (data.file_name) {
             document.querySelector('#chat-messages').innerHTML += 
                 (messageColor +
-                        '<p class="text-gray-900 text-sm">' + `<a download href="/media/${roomName}/${data.file_name}" target="_blank">${data.file_name}</a></p>` +
+                        '<p class="text-gray-900 text-sm">' + `<a download href="javascript:downloadFile('/media/${roomName}/${data.file_name}', '${data.file_name}')">${data.file_name}</a></p>` + //`<a download href="/media/${roomName}/${data.file_name}" target="_blank">${data.file_name}</a></p>` +
                     '</div>' +
                 '</div>');
             document.querySelector('#file-input').value = "";
@@ -212,5 +212,29 @@
 
     // Add this below the function to trigger the scroll on load.
     scrollToBottom();
+    
+    function downloadFile(link, filename){
+        axios({
+                url: link, //your url
+                method: 'GET',
+                responseType: 'blob', // important
+            })
+            .then((response) => {
+                // create file link in browser's memory
+                const href = URL.createObjectURL(response.data);
+
+                // create "a" HTML element with href to file & click
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', filename); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+
+                // clean up "a" element & remove ObjectURL
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
+            });
+        }
+
 </script>
 {% endblock %}
