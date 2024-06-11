@@ -14,6 +14,20 @@
         <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }} - {{ username }} </h1>
     </div>
 {% endif %}
+<style>
+    body {
+        background-image: url('D:\djangochat\static\Vault.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .chat-container {
+        background: rgba(255, 255, 255, 0.8); /* Adding some transparency to the chat container */
+        border-radius: 15px;
+        padding: 20px;
+    }
+</style>
 
     <div class="flex flex-col h-screen max-w-sm">
         <div class="flex-grow overflow-y-auto" id="chat-messages">
