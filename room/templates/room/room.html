@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}{{ room.name }}  | {% endblock %}
 
@@ -16,7 +17,7 @@
 {% endif %}
 <style>
     body {
-        background-image: url('D:/djangochat/static/Vault.jpg');
+        background-image: url({% static 'room/Vault.jpg' %});
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
