@@ -11,10 +11,13 @@ K = 10 # Length of rooms' name
 from .forms import SignUpForm
 
 def frontpage(request):
-    username = request.GET.get('username', 'Guest')
-    user = User.objects.get(username=username)
-    login(request, user)
-    # if user is staff no chat room is created and current rooms are shown.
+    username = username = request.GET.get('username', 'Guest')
+    if not request.user.is_authenticated:      
+        user = User.objects.get(username='Guest')
+        login(request, user)
+        # if user is staff no chat room is created and current rooms are shown.
+    else:
+        user = User.objects.get(username=request.user)
     if user.is_staff:
         #return render(request, 'core/frontpage.html')
         rooms = Room.objects.all()
@@ -24,7 +27,7 @@ def frontpage(request):
         room_name = generate_random_room(K)
         the_room = Room.objects.create(name=room_name, slug=room_name, opened=False)
         return render(request, 'room/room.html', {'room': the_room, 'messages': [],\
-                                              'username': request.user.username })
+                                            'username': user.username, 'nikname':username })
 
 def signup(request):
     if request.method == 'POST':
