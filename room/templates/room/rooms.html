@@ -15,7 +15,7 @@
             {% else %}
                 <div class="p-4 bg-white animate-pulse shadow rounded-xl text-center">
             {% endif %}
-                <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+                <h2 class="mb-5 text-2xl font-semibold">{{ room.name }} - {{ room.nikname}}</h2>
 
                 <button onclick="openChat( '{{ room.slug }}')" target="_blank" class="px-5 py-3 w-full block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</button>
                 <a href="{% url 'delroom' room.slug %}" class="my-3 px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Delete</a>
@@ -62,6 +62,7 @@
         let host = location.host;
         window.open(`http://${host}/rooms/`+room+"/", null, 
                     "width=400px, height=550px, toolbar=0,location=0,resizable=0, menubar=0, status=0");
+        location.reload();
     }
         
 </script>

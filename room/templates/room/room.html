@@ -97,10 +97,13 @@
 {% block scripts %}
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
+{{ nikname|json_script:"json-nikname" }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
+    const nikName = JSON.parse(document.getElementById('json-nikname').textContent);
+    
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -117,7 +120,7 @@
     );
     refreshSocket.onopen = function(e) {
         refreshSocket.send(JSON.stringify({
-            'message': 'Hi',
+            'message': nikName,
             'username': 'Anah',
             'room': roomName
         }));
@@ -130,8 +133,6 @@
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         let messageColor = '';
-        console.log(data);
-        console.log(userName);
         if (data.username == userName) {
             messageColor = '<div class="flex justify-start mt-2 ml-2">' +
                             '<div class="bg-gray-200 rounded-lg px-4 py-2 max-w-[80%]">'

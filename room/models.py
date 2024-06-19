@@ -5,6 +5,7 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     opened = models.BooleanField(default=False)
+    nikname = models.CharField(max_length=255, default='Guest')
 
     def __str__(self):
         return self.name  # This is just an example, customize as needed
