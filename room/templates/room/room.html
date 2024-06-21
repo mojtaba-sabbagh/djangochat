@@ -35,13 +35,13 @@
             {% for m in messages %} 
                 {% if m.kind == 2 %} 
                     <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %} ">
-                        <div class="{% cycle 'bg-gray-100' 'bg-blue-300' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm"><a dowload href="javascript:downloadFile('/chat/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')"> {{ m.content }} </a></p>
+                        <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
+                            <p class="text-gray-900 text-sm"><a dowload href="javascript:downloadFile('/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')"> {{ m.content }} </a></p>
                         </div>
                     </div>
                 {% else %}
                     <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
-                        <div class="{% cycle 'bg-gray-100' 'bg-blue-300' %} rounded-lg px-4 py-2 max-w-[80%]">
+                        <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
                             <p class="text-gray-900 text-sm"> {{ m.content }} </p>
                         </div>
                     </div>
@@ -135,10 +135,10 @@
         let messageColor = '';
         if (data.username == userName) {
             messageColor = '<div class="flex justify-start mt-2 ml-2">' +
-                            '<div class="bg-gray-100 rounded-lg px-4 py-2 max-w-[80%]">'
+                            '<div class="bg-gray-200 rounded-lg px-4 py-2 max-w-[80%]">'
         } else {
             messageColor = '<div class="flex justify-end mt-2 mr-2">' +
-                            '<div class="bg-blue-300 rounded-lg px-4 py-2 max-w-[80%]">'
+                            '<div class="bg-blue-400 rounded-lg px-4 py-2 max-w-[80%]">'
         }
         if (data.message) {
             document.querySelector('#chat-messages').innerHTML +=
