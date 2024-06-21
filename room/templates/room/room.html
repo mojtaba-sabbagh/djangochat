@@ -28,6 +28,12 @@
         padding:20px;
     }
 </style>
+<style>
+    .message-wrapper {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+</style>
 
     <div class="flex flex-col h-screen max-w-sm">
         <div class="flex-grow overflow-y-auto" id="chat-messages">
@@ -186,13 +192,6 @@
 
         return false
     };
-    <style>
-    .message-wrapper {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: pre-wrap;
-    }
-</style>
 
     document.querySelector('#file-input').onchange = function(e) {
             const file = e.target.files[0];
