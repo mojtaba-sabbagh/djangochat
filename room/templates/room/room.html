@@ -2,16 +2,6 @@
 {% load static %}
 
 {% block title %}{{ room.name }}  | {% endblock %}
-
-{% block extra_css %}
-<style>
-    .message-wrapper {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: pre-wrap;
-    }
-</style>
-{% endblock %}
 {% block page_title %}
     {% if username == "Anah" %}
         <h1 class="text-3xl lg:text-6xl text-white">Chat-Room</h1>
@@ -138,7 +128,7 @@
     chatSocket.onclose = function(e) {
         console.log('onclose')
     }
-
+    
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         let messageColor = '';
@@ -196,6 +186,13 @@
 
         return false
     };
+    <style>
+    .message-wrapper {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+    }
+</style>
 
     document.querySelector('#file-input').onchange = function(e) {
             const file = e.target.files[0];
