@@ -3,6 +3,14 @@
 
 {% block title %}{{ room.name }}  | {% endblock %}
 
+{% block extra_css %}
+<style>
+    .chat-message {
+        word-break: break-word;
+        white-space: pre-wrap;
+    }
+</style>
+{% endblock %}
 {% block page_title %}
     {% if username == "Anah" %}
         <h1 class="text-3xl lg:text-6xl text-white">Chat-Room</h1>
@@ -28,13 +36,6 @@
         border-radius:15px;
         padding:20px;
     }
-</style>
-
-<style>
-    .chat-message {
-    word-break: break-word;
-    white-space: pre-wrap;
-}
 </style>
 
     <div class="flex flex-col h-screen max-w-sm">
