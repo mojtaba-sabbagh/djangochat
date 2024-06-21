@@ -49,6 +49,9 @@ def user_logout(request):
     logout(request)
     return render(request, template_name='core/logout.html')
 
+def home_page(request):
+    return render(request, "core/home.html")
+
 def generate_random_room(k):
     S = 10  # number of characters in the string.  
     ran = ''.join(random.choices(string.ascii_uppercase+string.digits, k=k)) 

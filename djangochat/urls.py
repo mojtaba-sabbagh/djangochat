@@ -20,8 +20,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('core.urls')),
-    path('rooms/', include('room.urls')),
-    path('admin/', admin.site.urls),
+    path('chat/', include('core.urls')),
+    path('chat/rooms/', include('room.urls')),
+    path('chat/admin/', admin.site.urls),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

@@ -56,14 +56,14 @@
             <div class="flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
                     {% if request.user.is_staff %}
-                        <a href="/rooms/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Rooms</a>
+                        <a href="/chat/rooms/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Rooms</a>
                     
-                    <a href="/logout/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Logout</a>
+                    <a href="/chat/logout/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Logout</a>
                     {% endif %}
                 {% else %}
                     {% if request.user.is_staff %}
-                        <a href="/login/" class="text-white hover:text-gray-200">Login</a>
-                        <a href="/signup/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Signup</a>
+                        <a href="/chat/login/" class="text-white hover:text-gray-200">Login</a>
+                        <a href="/chat/signup/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Signup</a>
                     {% endif %}
                 {% endif %}
             </div>

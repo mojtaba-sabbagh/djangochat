@@ -31,9 +31,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/rooms'
-LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/chat/'
+LOGIN_REDIRECT_URL = '/chat/rooms'
+LOGIN_URL = 'chat/login/'
 
 
 # Application definition
@@ -158,7 +158,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 #
-STATIC_URL = 'static/'
+STATIC_URL = '/chat/static/'
 STATICFILES_DIRS = [
 ]
 
@@ -168,7 +168,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Base url to serve media files
-MEDIA_URL = '/media/'
+MEDIA_URL = '/chat/media/'
 
 # Path where media is stored'
 MEDIA_ROOT = BASE_DIR / 'media'

@@ -48,7 +48,7 @@
         const data = JSON.parse(e.data);
 
         if (data.message) {
-            location.replace("/rooms/")
+            location.replace("/chat/rooms/")
         } 
         //else {
         //    alert('The message was empty!')
@@ -60,7 +60,7 @@
    <script>
     function openChat(room) {
         let host = location.host;
-        window.open(`http://${host}/rooms/`+room+"/", null, 
+        window.open(`http://${host}/chat/rooms/`+room+"/", null, 
                     "width=400px, height=550px, toolbar=0,location=0,resizable=0, menubar=0, status=0");
         location.reload();
     }
