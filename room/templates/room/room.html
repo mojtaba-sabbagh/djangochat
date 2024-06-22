@@ -35,13 +35,13 @@
                 {% if m.kind == 2 %} 
                     <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %} ">
                         <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm"><a dowload href="javascript:downloadFile('/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')"> {{ m.content }} </a></p>
+                            <p class="text-gray-900 text-sm text-wrap"><a dowload href="javascript:downloadFile('/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')"> {{ m.content }} </a></p>
                         </div>
                     </div>
                 {% else %}
                     <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
                         <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm"> {{ m.content }} </p>
+                            <p class="text-gray-900 text-sm text-wrap"> {{ m.content }} </p>
                         </div>
                     </div>
                 {% endif %}
