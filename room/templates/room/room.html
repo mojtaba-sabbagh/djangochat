@@ -142,7 +142,7 @@
         if (data.message) {
             document.querySelector('#chat-messages').innerHTML +=
                 (messageColor +
-                        `<p class="text-gray-900 text-sm"><span class="wrap">${data.message}</span></p>` +
+                        `<p class="text-gray-900 text-sm text-wrap"><span>${data.message}</span></p>` +
                     '</div>' +
                 '</div>');
                 
@@ -150,7 +150,7 @@
         if (data.file_name) {
             document.querySelector('#chat-messages').innerHTML += 
                 (messageColor +
-                        '<p class="text-gray-900 text-sm">' + `<a download href="javascript:downloadFile('/chat/media/${roomName}/${data.file_name}', '${data.file_name}')"><span class ="wrap">${data.file_name}</span></a></p>` + //`<a download href="/media/${roomName}/${data.file_name}" target="_blank">${data.file_name}</a></p>` +
+                        '<p class="text-gray-900 text-sm text-wrap">' + `<a download href="javascript:downloadFile('/chat/media/${roomName}/${data.file_name}', '${data.file_name}')"><span>${data.file_name}</span></a></p>` + //`<a download href="/media/${roomName}/${data.file_name}" target="_blank">${data.file_name}</a></p>` +
                     '</div>' +
                 '</div>');
             document.querySelector('#file-input').value = "";
