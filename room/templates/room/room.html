@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}{{ room.name }}  | {% endblock %}
+
 {% block page_title %}
     {% if username == "Anah" %}
         <h1 class="text-3xl lg:text-6xl text-white">Chat-Room</h1>
@@ -14,6 +15,7 @@
         <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }} - {{ username }} </h1>
     </div>
 {% endif %}
+
 <style>
     body {
         background-image: url("{% static 'room/Vault By AnaH logo.jpg' %}");
@@ -237,6 +239,5 @@
                 URL.revokeObjectURL(href);
             });
         }
-
 </script>
 {% endblock %}
