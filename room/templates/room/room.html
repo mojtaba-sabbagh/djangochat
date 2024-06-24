@@ -43,7 +43,7 @@
                 {% else %}
                     <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
                         <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm text-wrap"> {{ m.content }} </p>
+                            <p class="text-gray-900 text-sm text-wrap break-words"> {{ m.content }} </p>
                         </div>
                     </div>
                 {% endif %}
@@ -144,7 +144,7 @@
         if (data.message) {
             document.querySelector('#chat-messages').innerHTML +=
                 (messageColor +
-                        `<p class="text-gray-900 text-sm text-wrap"><span>${data.message.trim()}</span></p>` +
+                        `<p class="text-gray-900 text-sm text-wrap break-words"><span>${data.message.trim()}</span></p>` +
                     '</div>' +
                 '</div>');
                 
