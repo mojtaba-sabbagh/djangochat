@@ -142,7 +142,7 @@
         if (data.message) {
             document.querySelector('#chat-messages').innerHTML +=
                 (messageColor +
-                        `<p class="text-gray-900 text-sm text-wrap"><span>${data.message}</span></p>` +
+                        `<p class="text-gray-900 text-sm text-wrap"><span>${data.message.trim()}</span></p>` +
                     '</div>' +
                 '</div>');
                 
