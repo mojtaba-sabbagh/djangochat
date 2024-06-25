@@ -12,7 +12,7 @@
 {% block content %}
 {% if username == "Anah" %}
     <div class="p-10 lg:p-20 text-center">
-        <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }} - {{ username }} </h1>
+        <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }} - {{ username }}</h1>
     </div>
 {% endif %}
 
@@ -26,72 +26,49 @@
 
     .chat-container {
         background: rgba(255, 255, 255, 0.8); /* Adding some transparency to the chat container */
-        border-radius:15px;
-        padding:20px;
+        border-radius: 15px;
+        padding: 20px;
+    }
+
+    textarea {
+        resize: none; /* Disable manual resizing */
+        overflow: hidden; /* Hide scrollbars initially */
     }
 </style>
 
-    <div class="flex flex-col h-screen max-w-sm">
-        <div class="flex-grow overflow-y-auto" id="chat-messages">
-            {% for m in messages %} 
-                {% if m.kind == 2 %} 
-                    <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %} ">
-                        <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm text-wrap"><a dowload href="javascript:downloadFile('/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')"> {{ m.content }} </a></p>
-                        </div>
+<div class="flex flex-col h-screen max-w-sm">
+    <div class="flex-grow overflow-y-auto" id="chat-messages">
+        {% for m in messages %}
+            {% if m.kind == 2 %}
+                <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
+                    <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
+                        <p class="text-gray-900 text-sm text-wrap"><a download href="javascript:downloadFile('/media/{{ m.room }}/{{ m.content }}', '{{ m.content }}')">{{ m.content }}</a></p>
                     </div>
-                {% else %}
-                    <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
-                        <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
-                            <p class="text-gray-900 text-sm text-wrap break-words"> {{ m.content }} </p>
-                        </div>
+                </div>
+            {% else %}
+                <div class="flex {% cycle 'justify-start' 'justify-end' %} mt-2 {% cycle 'ml-2' 'mr-2' %}">
+                    <div class="{% cycle 'bg-gray-200' 'bg-blue-400' %} rounded-lg px-4 py-2 max-w-[80%]">
+                        <p class="text-gray-900 text-sm text-wrap break-words">{{ m.content }}</p>
                     </div>
-                {% endif %}
-            {% endfor %}
-        </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 
-        <div class="flex justify-center items-center h-16">
-            <form method="post" action="."  class="flex items-center">
-                {% csrf_token %} 
-                <div class="input-icons">
-                    <label for="file-input">
-                        <i class="fa fa-paperclip icon"></i>
-                    </label>
-                    <input type="text" id="chat-message-input" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message...">
-                </div>
-                <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-1 rounded">Send</button>
-            </form>
-            <input class='hidden' id="file-input" type="file">
-        </div>
-    </div>
-<!--div class="flex flex-col h-screen max-w-sm">
-    <div class="flex-grow overflow-y-auto">
-        <!- Chat messages -->
-        <!--div class="flex flex-col mb-4 gap-4 py-4">
-            <div class="flex justify-start">
-                <div class="bg-gray-100 rounded-lg px-4 py-2 max-w-[80%]">
-                    <p class="text-gray-900 text-sm">Hey, how are you?</p>
-                </div>
-            </div>
-            <div class="flex justify-end">
-                <div class="bg-blue-500 rounded-lg px-4 py-2 max-w-[80%]">
-                    <p class="text-white text-sm">I'm good, thanks! How about you?</p>
-                </div>
-            </div>
-            <div class="flex justify-start">
-                <div class="bg-gray-100 rounded-lg px-4 py-2 max-w-[80%]">
-                    <p class="text-gray-900 text-sm">I'm doing great, thanks for asking!</p>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="flex justify-center items-center h-16">
-        <!- Chat input ->
-        <input type="text" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message...">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
+        <form method="post" action="." class="flex items-center">
+            {% csrf_token %}
+            <div class="input-icons">
+                <label for="file-input">
+                    <i class="fa fa-paperclip icon"></i>
+                </label>
+                <textarea id="chat-message-input" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message..."></textarea>
+            </div>
+            <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-1 rounded">Send</button>
+        </form>
+        <input class='hidden' id="file-input" type="file">
     </div>
-</div-->
-
+</div>
 
 {% endblock %}
 
@@ -157,7 +134,7 @@
                 '</div>');
             document.querySelector('#file-input').value = "";
         }
-        
+
         //else {
         //    alert('The message was empty!')
        // }
@@ -185,26 +162,26 @@
         }));
 
         messageInputDom.value = '';
+        messageInputDom.style.height = 'auto'; // Reset the height after sending
 
         return false
     };
 
     document.querySelector('#file-input').onchange = function(e) {
-            const file = e.target.files[0];
-            const reader = new FileReader();
+        const file = e.target.files[0];
+        const reader = new FileReader();
 
-            reader.onload = function(event) {
-                const file_data = event.target.result.split(',')[1]; // get base64 part
-                chatSocket.send(JSON.stringify({
-                    'file': file_data,
-                    'username': userName,
-                    'file_name': file.name,
-                    'room': roomName
-                }));
-            };
-            reader.readAsDataURL(file);
+        reader.onload = function(event) {
+            const file_data = event.target.result.split(',')[1]; // get base64 part
+            chatSocket.send(JSON.stringify({
+                'file': file_data,
+                'username': userName,
+                'file_name': file.name,
+                'room': roomName
+            }));
         };
-        
+        reader.readAsDataURL(file);
+    };
 
     /**
     * A function for finding the messages element, and scroll to the bottom of it.
@@ -217,27 +194,45 @@
     // Add this below the function to trigger the scroll on load.
     scrollToBottom();
     
-    function downloadFile(link, filename){
+    function downloadFile(link, filename) {
         axios({
-                url: link, //your url
-                method: 'GET',
-                responseType: 'blob', // important
-            })
-            .then((response) => {
-                // create file link in browser's memory
-                const href = URL.createObjectURL(response.data);
+            url: link, //your url
+            method: 'GET',
+            responseType: 'blob', // important
+        })
+        .then((response) => {
+            // create file link in browser's memory
+            const href = URL.createObjectURL(response.data);
 
-                // create "a" HTML element with href to file & click
-                const link = document.createElement('a');
-                link.href = href;
-                link.setAttribute('download', filename); //or any other extension
-                document.body.appendChild(link);
-                link.click();
+            // create "a" HTML element with href to file & click
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', filename); //or any other extension
+            document.body.appendChild(link);
+            link.click();
 
-                // clean up "a" element & remove ObjectURL
-                document.body.removeChild(link);
-                URL.revokeObjectURL(href);
-            });
-        }
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.querySelector('#chat-message-input');
+        const maxHeight = 50; // Maximum height in pixels
+
+        textarea.addEventListener('input', function() {
+            textarea.style.height = 'auto'; // Reset the height to auto
+            textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px'; // Set the height
+            if (textarea.scrollHeight > maxHeight) {
+                textarea.style.overflowY = 'scroll'; // Enable vertical scroll if max height is exceeded
+            } else {
+                textarea.style.overflowY = 'hidden'; // Disable vertical scroll if within max height
+            }
+        });
+
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    });
 </script>
 {% endblock %}
