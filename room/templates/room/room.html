@@ -30,9 +30,79 @@
         padding: 20px;
     }
 
-    textarea {
-        resize: none; /* Disable manual resizing */
-        overflow: hidden; /* Hide scrollbars initially */
+    .input-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        background-color: #f8f8f8;
+    }
+
+    .input-container textarea {
+        flex: 1;
+        border: none;
+        border-radius: 20px;
+        padding: 10px;
+        margin-right: 10px;
+        resize: none;
+        height: 40px;
+        overflow: hidden;
+        background-color: #e6e6e6;
+    }
+
+    .input-container textarea:focus {
+        outline: none;
+    }
+
+    .attach-button {
+        background-color: #979797; 
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s;
+        margin-right: 5px;
+    }
+
+    .attach-button:hover {
+        background-color: #50A0A0; 
+    }
+
+    .attach-button i {
+        color: white;
+        font-size: 20px;
+    }
+
+    .send-button {
+        background-color: #939795;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s;
+    }
+
+    .send-button:hover {
+        background-color: #50A0A0; 
+    }
+
+    .send-button i {
+        color: white;
+        font-size: 20px;
+    }
+
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -55,18 +125,16 @@
         {% endfor %}
     </div>
 
-    <div class="flex justify-center items-center h-16">
-        <form method="post" action="." class="flex items-center">
+    <div class="input-container">
+        <form method="post" action="." class="flex items-center w-full">
             {% csrf_token %}
-            <div class="input-icons">
-                <label for="file-input">
-                    <i class="fa fa-paperclip icon"></i>
-                </label>
-                <textarea id="chat-message-input" class="border border-gray-300 rounded-lg py-2 px-4 w-full max-w-lg mr-4" placeholder="Type a message..."></textarea>
-            </div>
-            <button id="chat-message-submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-1 rounded">Send</button>
+            <input id="file-input" type="file" class="hidden">
+            <button type="button" class="attach-button" onclick="document.getElementById('file-input').click()">
+                <i class="fa fa-paperclip"></i>
+            </button>
+            <textarea id="chat-message-input" placeholder="Type a message..."></textarea>
+            <button id="chat-message-submit" class="send-button"><i class="fa fa-paper-plane"></i></button>
         </form>
-        <input class='hidden' id="file-input" type="file">
     </div>
 </div>
 
@@ -77,6 +145,7 @@
 {{ request.user.username|json_script:"json-username" }}
 {{ nikname|json_script:"json-nikname" }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
