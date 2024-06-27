@@ -223,13 +223,13 @@
 
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': userName,
-            'room': roomName
-        }));
-
+        if (message.trim()) {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': userName,
+                'room': roomName
+            }));
+        }
         messageInputDom.value = '';
         messageInputDom.style.height = 'auto'; // Reset the height after sending
 
