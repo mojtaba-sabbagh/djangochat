@@ -8,7 +8,7 @@ class Room(models.Model):
     nikname = models.CharField(max_length=255, default='Guest')
 
     def __str__(self):
-        return self.name  # This is just an example, customize as needed
+        return f"{self.name} - {self.nikname}"  # This is just an example, customize as needed
 
 class MessageIntegerChoices(models.IntegerChoices):
     MESSAGE = 1
@@ -20,6 +20,7 @@ class Message(models.Model):
     content = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     kind = models.IntegerField(choices=MessageIntegerChoices.choices, default=1)
-
+    def __str__(self):
+        return f"{self.content} --- {self.room}"  # This is just an example, customize as needed
     class Meta:
         ordering = ('date_added',)
