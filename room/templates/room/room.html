@@ -187,7 +187,7 @@
             messageColor = '<div class="flex justify-end mt-2 mr-2">' +
                             '<div class="bg-blue-400 rounded-lg px-4 py-2 max-w-[80%]">'
         }
-        if (data.message) {
+        if (data.message.trim()) {
             document.querySelector('#chat-messages').innerHTML +=
                 (messageColor +
                         `<p class="text-gray-900 text-sm text-wrap break-words"><span>${data.message.trim()}</span></p>` +
