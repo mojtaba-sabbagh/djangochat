@@ -187,13 +187,15 @@
             messageColor = '<div class="flex justify-end mt-2 mr-2">' +
                             '<div class="bg-blue-400 rounded-lg px-4 py-2 max-w-[80%]">'
         }
-        if (data.message.trim()) {
-            document.querySelector('#chat-messages').innerHTML +=
-                (messageColor +
-                        `<p class="text-gray-900 text-sm text-wrap break-words"><span>${data.message.trim()}</span></p>` +
-                    '</div>' +
-                '</div>');
-                
+        if (data.message) {
+            let message = data.message.trim();
+            if (message) {
+                document.querySelector('#chat-messages').innerHTML +=
+                    (messageColor +
+                        `<p class="text-gray-900 text-sm text-wrap break-words"><span>${message}</span></p>` +
+                        '</div>' +
+                    '</div>');
+            }
         }
         if (data.file_name) {
             document.querySelector('#chat-messages').innerHTML += 
@@ -223,7 +225,7 @@
 
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-        if (message.trim()) {
+        if (message) {
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'username': userName,
