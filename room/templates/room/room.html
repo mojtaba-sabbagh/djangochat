@@ -152,14 +152,14 @@
     const nikName = JSON.parse(document.getElementById('json-nikname').textContent);
     
     const chatSocket = new WebSocket(
-        'ws://'
+        'wss://'
         + window.location.host
         + '/chat/ws/'
         + roomName
         + '/'
     );
     const refreshSocket = new WebSocket(
-        'ws://'
+        'wss://'
         + window.location.host
         + '/chat/ws/'
         + 'Anah'
