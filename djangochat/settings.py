@@ -160,6 +160,7 @@ USE_TZ = True
 #
 STATIC_URL = '/chat/static/'
 STATICFILES_DIRS = [
+    '/var/www',
 ]
 
 # Default primary key field type
