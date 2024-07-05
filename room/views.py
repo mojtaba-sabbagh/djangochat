@@ -24,11 +24,14 @@ def room(request, slug):
                                                 'title_page': 'Chat Room'})
 @staff_member_required
 def delroom(request, slug):
-    room = Room.objects.get(slug=slug)
-    folder_path = f'{settings.MEDIA_ROOT}/{room.name}'
     try:
-        shutil.rmtree(folder_path)
-    except:
+        room = Room.objects.get(slug=slug)
+        folder_path = f'{settings.MEDIA_ROOT}/{room.name}'
+        try:
+            shutil.rmtree(folder_path)
+        except:
+            pass
+        room.delete()
+    except Room.DoesNotExist:
         pass
-    room.delete()
     return redirect('rooms')

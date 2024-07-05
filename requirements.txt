@@ -1,3 +1,4 @@
 pybase64
 'channels[daphne]'
 channels_redis
+daphne
