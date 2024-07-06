@@ -6,6 +6,7 @@ from room.models import Room
 
 import string    
 import random
+
 K = 10 # Length of rooms' name
 
 from .forms import SignUpForm
@@ -26,8 +27,9 @@ def frontpage(request):
         # create room to chat
         room_name = generate_random_room(K)
         the_room = Room.objects.create(name=room_name, slug=room_name, opened=False, nikname=username)
+        
         return render(request, 'room/room.html', {'room': the_room, 'messages': [],\
-                                            'username': user.username, 'nikname':username })
+                                            'username': user.username })
 
 def signup(request):
     if request.method == 'POST':

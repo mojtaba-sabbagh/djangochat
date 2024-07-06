@@ -26,16 +26,16 @@
 {% endblock %}
 
 {% block scripts %}
-{{ room.slug|json_script:"json-roomname" }}
-{{ request.user.username|json_script:"json-username" }}
 
 <script>
-    const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+    const roomName = "Anah"; //JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = "Anah";//JSON.parse(document.getElementById('json-username').textContent);
+    let ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     const chatSocket = new WebSocket(
-        'ws://'
+        ws_scheme
+        + '://'
         + window.location.host
-        + '/ws/'
+        + '/chat/ws/'
         + userName
         + '/'
     );
@@ -46,9 +46,9 @@
 
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-
+        console.log('Refresh...');
         if (data.message) {
-            location.replace("/chat/rooms/")
+            location.replace("/chat/rooms/");
         } 
         //else {
         //    alert('The message was empty!')
@@ -60,7 +60,8 @@
    <script>
     function openChat(room) {
         let host = location.host;
-        window.open(`http://${host}/chat/rooms/`+room+"/", null, 
+        let protocol = window.location.protocol;
+        window.open(`${protocol}//${host}/chat/rooms/`+room+"/", null, 
                     "width=400px, height=550px, toolbar=0,location=0,resizable=0, menubar=0, status=0");
         location.reload();
     }

@@ -143,36 +143,45 @@
 {% block scripts %}
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
-{{ nikname|json_script:"json-nikname" }}
+{{ room.nikname|json_script:"json-nikname" }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
     const nikName = JSON.parse(document.getElementById('json-nikname').textContent);
-    
+    let ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     const chatSocket = new WebSocket(
-        'ws://'
+        ws_scheme
+        + '://'
         + window.location.host
         + '/chat/ws/'
         + roomName
         + '/'
     );
-    const refreshSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/chat/ws/'
-        + 'Anah'
-        + '/'
-    );
-    refreshSocket.onopen = function(e) {
-        refreshSocket.send(JSON.stringify({
-            'message': nikName,
-            'username': 'Anah',
-            'room': roomName
-        }));
-    }
 
+    {% if username != "Anah" %}
+
+        const refreshSocket = new WebSocket(
+            ws_scheme
+            + '://'
+            + window.location.host
+            + '/chat/ws/'
+            + 'Anah'
+            + '/'
+        );
+        refreshSocket.onopen = function(e) {
+            console.log("Refresh openned...");
+            refreshSocket.send(JSON.stringify({
+                'message': nikName,
+                'username': 'Anah',
+                'room': 'Anah'
+            }));
+        }
+    {% endif %}
+    {% if username == "Anah" %}
+        writeonMessageBox(nikName)
+    {% endif %}
     chatSocket.onclose = function(e) {
         console.log('onclose')
     }
@@ -305,5 +314,14 @@
         textarea.style.height = 'auto';
         textarea.style.height = (textarea.scrollHeight) + 'px';
     });
+
+    function writeonMessageBox(text){
+        document.querySelector('#chat-messages').innerHTML +=
+                    ('<div class="flex justify-center mt-2 ml-2">' +
+                        '<div class="bg-gray-50 rounded-lg px-10 py-1 max-w-[80%]">'+
+                            `<p class="text-gray-900 text-medium text-wrap break-words"><span>${text}</span></p>` +
+                        '</div>' +
+                     '</div>');
+    }
 </script>
 {% endblock %}
