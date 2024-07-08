@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 
 LOGOUT_REDIRECT_URL = '/chat/'
-LOGIN_REDIRECT_URL = '/chat/rooms'
+LOGIN_REDIRECT_URL = '/chat/rooms/'
 LOGIN_URL = '/chat/login/'
 
 
@@ -83,20 +83,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djangochat.wsgi.application'
 ASGI_APPLICATION = 'djangochat.asgi.application'
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels.layers.InMemoryChannelLayer'
-#     }
-# }
-
 CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
+""" CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [("127.0.0.1", 6379)],
         },
     },
-}
+} """
 
 
 # Database
