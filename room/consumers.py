@@ -53,7 +53,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 self.room_group_name,
                 {
                     'type': 'chat.message',
-                    'message': message,
+                    'message': payam,
                     'username': username
                 }
             )
